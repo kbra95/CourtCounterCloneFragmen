@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Court-Counter-Clone(Fragment)</string>
+    <string name="reset">REset</string>
+    <string name="point1">+1 Point</string>
+    <string name="point2">+2 Point</string>
+    <string name="point3">+3 Point</string>
+    <string name="teamB">TEam B</string>
+    <string name="teamA">TEam A</string>
+</resources>
