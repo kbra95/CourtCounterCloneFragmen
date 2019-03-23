@@ -1,10 +1,12 @@
 package com.example.court_counter_clonefragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -14,6 +16,7 @@ import android.support.v4.app.Fragment;
 
 public class ListFragment extends android.support.v4.app.ListFragment {
 
+    private SharedViewModel model;
     TextView title;
     boolean mDualPane;
     int mCurCheckPosition = 0;
@@ -86,6 +89,7 @@ public class ListFragment extends android.support.v4.app.ListFragment {
                 "onListItemClick position is" + position, Toast.LENGTH_LONG)
                 .show();
 
+        model.select(l.getItemAtPosition(position).toString());
         showDetails(position);
     }
     void showDetails(int index) {
@@ -112,7 +116,7 @@ public class ListFragment extends android.support.v4.app.ListFragment {
             if (details == null || details.getShownIndex() != index) {
                 // Make new fragment to show this selection.
 
-                details = DetailsFragment.newInstance(index);
+                details = DetailsFragment.newInstance(getListView().getItemAtPosition(index).toString());
 
 
                 Toast.makeText(getActivity(),
@@ -143,9 +147,16 @@ public class ListFragment extends android.support.v4.app.ListFragment {
             intent.setClass(getActivity(), DetailsActivity.class);
 
             // pass the current position
-            intent.putExtra("index", index);
-
+            intent.putExtra("index", getListView().getItemAtPosition(index).toString());
+            //Log.d("TAG" , getListView().getItemAtPosition(index).toString());
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        model = ViewModelProviders.of(getActivity()).get(SharedViewModel.class);
+
     }
 }
